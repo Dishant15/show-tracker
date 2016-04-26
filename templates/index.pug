@@ -1,0 +1,6 @@
+extends layout
+
+block content
+	h1.text-center All updates on your shows
+	each show in show_list
+		p #{show.name}
