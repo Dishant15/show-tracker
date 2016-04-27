@@ -14,6 +14,12 @@ function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({width: 800, height: 600});
 
+  // open external urls ( with target="_blank" ) in user browser
+  mainWindow.webContents.on('new-window', function(e, url) {
+    e.preventDefault();
+    require('shell').openExternal(url);
+  });
+
   // and load the index.html of the app.
   mainWindow.loadURL('http://localhost:3000');
 

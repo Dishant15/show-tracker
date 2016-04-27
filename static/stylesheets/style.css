@@ -3,3 +3,35 @@ body {
 	background: darkslateblue !important;
 	color:white !important;
 }
+
+.box {
+	margin: 20px 0px 0px 0px !important;
+	background: #2b303b;
+	color: white;
+	padding-left: 40px;
+}
+
+.new {
+	border-right: 10px solid orange;
+}
+
+.old {
+	border-right: 10px solid silver;
+}
+
+.done {
+	border-right: 10px solid #5cb85c;
+}
+
+.heading {
+	margin-top: 20px;
+	margin-bottom: 10px;
+	font-size: 150%;
+	font-weight: bold;
+}
+
+.glyph {
+	margin-top: 10px;
+	margin-right: 10px;
+	margin-bottom: 10px !important;
+}

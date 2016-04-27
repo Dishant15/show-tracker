@@ -1,6 +1,50 @@
 extends layout
 
 block content
-	h1.text-center All updates on your shows
-	each show in show_list
-		p #{show.name}
+	#show_list
+	if show_list.length
+		h1.text-center All updates on your shows
+		each show in show_list
+			#show.up_to_date
+				if show.up_to_date
+					.row.box.old
+						.col-sm-9.col-xs-12
+							.heading.text-left.text-warning #{show.name}
+
+							blockquote
+								p #{show.data.series_no}.#{show.data.ep_no} - #{show.data.ep_name}
+								footer Next episode #{show.data.next_ep_name} in 
+									cite.text-danger(title="Source Title") #{show.data.countdown}
+						
+						.text-center.col-sm-3.col-xs-12
+							a.btn.btn-success.glyph(href=show.dl_url, target="_blank", show=show._id )
+								span(class="glyphicon glyphicon-download-alt", aria-hidden="true")
+							a.btn.btn-warning.glyph(href="/edit/" + show._id)
+								span(class="glyphicon glyphicon-pencil", aria-hidden="true")
+							a.btn.btn-danger.glyph(href="/delete/" + show._id)
+								span(class="glyphicon glyphicon-trash", aria-hidden="true")
+				else
+					.row.box.new
+						.col-sm-9.col-xs-12
+							.heading.text-left.text-warning #{show.name}
+							blockquote
+								p #{show.data.series_no}.#{show.data.ep_no} - #{show.data.ep_name}
+								footer Next episode #{show.data.next_ep_name} in 
+									cite.text-danger(title="Source Title") #{show.data.countdown}
+						
+						.text-center.col-sm-3.col-xs-12
+							a.btn.btn-success.glyph(href=show.dl_url, target="_blank", show=show._id )
+								span(class="glyphicon glyphicon-download-alt", aria-hidden="true")
+							a.btn.btn-warning.glyph(href="/edit/" + show._id)
+								span(class="glyphicon glyphicon-pencil", aria-hidden="true")
+							a.btn.btn-danger.glyph(href="/delete/" + show._id)
+								span(class="glyphicon glyphicon-trash", aria-hidden="true")
+	else
+		.text-center
+			h2.text-danger No show added to your watch list yet
+			p add your favourite shows to track their progress
+			a.btn.btn-success(href="/add") Add show
+
+block scripts
+	script(src="/javascripts/action.js")
+

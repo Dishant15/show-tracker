@@ -15,5 +15,7 @@ html
 			include navbar
 			block content
 
-		script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js")
+		script(src="/javascripts/jquery-1.12.3.min.js", onload="window.$ = window.jQuery = module.exports;")
+			//- window.$ = window.jQuery = require('/javascripts/jquery-1.12.3.min.js')
 		script(src="/bootstrap/js/bootstrap.min.js")
+		block scripts
