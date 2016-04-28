@@ -12,20 +12,37 @@ function get_data(url, callback) {
 	var result = {};
 	request(url, function (err, responce, html) {
 		var $ = cheerio.load(html);
+		if($("#previous_episode").length == 0){
+			// this dom not available
+			callback(null);
+			return;
+		}
 		$("#previous_episode").filter(function() {
 			// get current episode data
-			var parse_list = $(this).text().replace(/ /g,"+").replace(/\s/g, "").split(":");
+			try {
+				var parse_list = $(this).text().replace(/ /g,"+").replace(/\s/g, "").split(":");
 			
-			result.ep_name = parse_list[1].replace(/[+]/g," ").replace('Date','');
-			result.series_no = parse_list[3].replace(/[+]/g," ").replace('Episode','');
-			result.ep_no = parse_list[4].replace(/[+]/g," ").replace('Summary','');
+				result.ep_name = parse_list[1].replace(/[+]/g," ").replace('Date','');
+				result.series_no = parse_list[3].replace(/[+]/g," ").replace('Episode','');
+				result.ep_no = parse_list[4].replace(/[+]/g," ").replace('Summary','');
+			} catch(err) {
+				console.log(err);
+				callback(null);
+				return;
+			}
 			$("#next_episode").filter(function(){
 				// get next episode data
-				var parse_list = $(this).text().replace(/ /g,"+").replace(/\s/g, "").split(":");
+				try {
+					var parse_list = $(this).text().replace(/ /g,"+").replace(/\s/g, "").split(":");
 
-				result.next_ep_name = parse_list[1].replace(/[+]/g," ").replace('Countdown','');
-				result.countdown = parse_list[2].replace(/[+]/g," ").replace('Date','');
-				callback(result);
+					result.next_ep_name = parse_list[1].replace(/[+]/g," ").replace('Countdown','');
+					result.countdown = parse_list[2].replace(/[+]/g," ").replace('Date','');
+					callback(result);
+				} catch(err) {
+					result.next_ep_name = null;
+					result.countdown = null;
+					callback(result);
+				}				
 			});
 		});
 	});
@@ -41,8 +58,11 @@ router.get('/', function(req, res) {
 			function(show, callback){
 			// hit show url and get its data
 				get_data(show.fetch_url, function(latest_data){
-					if(err)throw err;
-					if(show.data.ep_name == latest_data.ep_name){
+					if(latest_data == null){
+						// can not get this data
+						show.up_to_date = true;
+					}
+					else if(show.data.ep_name == latest_data.ep_name){
 						show.up_to_date = true;
 					} else {
 						show.up_to_date = false;
@@ -54,7 +74,7 @@ router.get('/', function(req, res) {
 			function(){
 				res.render('index', { 
 					title: 'Home | ShowTracker',
-					show_list : main_list
+					show_list : main_list,
 				});
 			}
 		);
@@ -70,11 +90,17 @@ router.get('/add', function(req, res) {
 router.post('/add', function(req, res){
 	var newShow = req.body;
 	get_data(newShow.fetch_url, function(new_data){
+		if(new_data == null){
+			res.render('error', {
+				message : "Could not fetch details of this show",
+				error : {status : "Show may have ended/canceled or there maybe an error at our side!!", stack : null}
+			});
+			return;
+		}
 		newShow.data = new_data;
 		newShow.up_to_date = false;
 		db.insert(newShow, function(err, s){
 			if(err) throw err;
-			console.log(s);
 			res.redirect('/');
 		});
 	});

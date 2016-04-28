@@ -1,6 +1,10 @@
 extends layout
 
 block content
-  h1= message
-  h2= error.status
-  pre #{error.stack}
+	.text-center
+		h1.text-danger #{message}
+		h2= error.status
+		#error.stack
+		if error.stack
+			pre #{error.stack}
+		a.btn.btn-warning(href="/") OK

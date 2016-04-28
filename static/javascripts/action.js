@@ -6,7 +6,7 @@ $(".btn-success").on("click", function(){
 			method: "GET",
 			url: "/update/" + show_id,
 	}).done(function (data) {
-		console.log("am i here???/")
+		// ajax success
 		console.log(data);
 	})
 });

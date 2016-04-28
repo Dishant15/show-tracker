@@ -1,6 +1,10 @@
 extends layout
 
 block content
+	#msg
+	if msg
+		.alert.alert-danger(role="alert") #{msg}
+
 	#show_list
 	if show_list.length
 		h1.text-center All updates on your shows
@@ -13,8 +17,13 @@ block content
 
 							blockquote
 								p #{show.data.series_no}.#{show.data.ep_no} - #{show.data.ep_name}
-								footer Next episode #{show.data.next_ep_name} in 
-									cite.text-danger(title="Source Title") #{show.data.countdown}
+								#show.data.next_ep_name
+								if show.data.next_ep_name
+									footer Next episode #{show.data.next_ep_name} in 
+										cite.text-danger #{show.data.countdown}
+								else
+									footer Next episode details 
+										cite.text-danger not available
 						
 						.text-center.col-sm-3.col-xs-12
 							a.btn.btn-success.glyph(href=show.dl_url, target="_blank", show=show._id )
@@ -30,7 +39,7 @@ block content
 							blockquote
 								p #{show.data.series_no}.#{show.data.ep_no} - #{show.data.ep_name}
 								footer Next episode #{show.data.next_ep_name} in 
-									cite.text-danger(title="Source Title") #{show.data.countdown}
+									cite.text-danger #{show.data.countdown}
 						
 						.text-center.col-sm-3.col-xs-12
 							a.btn.btn-success.glyph(href=show.dl_url, target="_blank", show=show._id )
