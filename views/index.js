@@ -62,10 +62,14 @@ router.get('/', function(req, res) {
 						// can not get this data
 						show.up_to_date = true;
 					}
-					else if(show.data.ep_name == latest_data.ep_name){
+					else if(show.current == latest_data.series_no + '.' + latest_data.ep_no + ' ' + latest_data.ep_name){
 						show.up_to_date = true;
+						show.data = latest_data;
+						db.update({_id:show._id}, show, {});
 					} else {
 						show.up_to_date = false;
+						show.data = latest_data;
+						db.update({_id:show._id}, show, {});
 					}
 					main_list.push(show);
 					callback();
@@ -99,6 +103,7 @@ router.post('/add', function(req, res){
 		}
 		newShow.data = new_data;
 		newShow.up_to_date = false;
+		newShow.current = "You just started watching this!!";
 		db.insert(newShow, function(err, s){
 			if(err) throw err;
 			res.redirect('/');
@@ -113,6 +118,7 @@ router.get('/update/:id', function(req, res){
 		get_data(show.fetch_url, function(new_data){
 			show.data = new_data;
 			show.up_to_date = true;
+			show.current = new_data.series_no + '.' + new_data.ep_no + ' ' + new_data.ep_name;
 			db.update({_id : id}, show, {}, function(err, numAffected, affectedDocuments, upsert){		
 				if(err) throw err;
 				res.json({update:"success"});

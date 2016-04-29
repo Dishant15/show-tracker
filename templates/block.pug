@@ -1,0 +1,23 @@
+
+.col-sm-9.col-xs-12
+	.heading.text-left.text-warning #{show.name}
+
+	blockquote
+		p #{show.data.series_no}.#{show.data.ep_no} - #{show.data.ep_name}
+		#show.data.next_ep_name
+		if show.data.next_ep_name
+			footer Next episode #{show.data.next_ep_name} in 
+				cite.text-danger #{show.data.countdown}
+		else
+			footer Next episode details 
+				cite.text-danger not available
+
+	div.last Your last update : #{show.current}
+
+.text-center.col-sm-3.col-xs-12
+	a.btn.btn-success.glyph(href=show.dl_url, target="_blank", show=show._id )
+		span(class="glyphicon glyphicon-download-alt", aria-hidden="true")
+	a.btn.btn-warning.glyph(href="/edit/" + show._id)
+		span(class="glyphicon glyphicon-pencil", aria-hidden="true")
+	a.btn.btn-danger.glyph(href="/delete/" + show._id)
+		span(class="glyphicon glyphicon-trash", aria-hidden="true")
