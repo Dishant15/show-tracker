@@ -121,7 +121,7 @@ router.get('/update/:id', function(req, res){
 			show.current = new_data.series_no + '.' + new_data.ep_no + ' ' + new_data.ep_name;
 			db.update({_id : id}, show, {}, function(err, numAffected, affectedDocuments, upsert){		
 				if(err) throw err;
-				res.json({update:"success"});
+				res.json({current:show.current});
 			});
 		});
 	});

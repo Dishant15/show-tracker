@@ -7,6 +7,6 @@ $(".btn-success").on("click", function(){
 			url: "/update/" + show_id,
 	}).done(function (data) {
 		// ajax success
-		console.log(data);
+		$this.parent().siblings().children(".last").children('span').text(data.current);
 	})
 });

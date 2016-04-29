@@ -7,8 +7,14 @@ block content
 			input.form-control(type='text', placeholder='Name of the show', name="name", value=show.name)
 		.form-group
 			label Fetch URL
-			input.form-control(type='text', placeholder='URL to pull data from (get from next-episode.com)', name="fetch_url", value=show.fetch_url)
+			p.help-blockExample get this url from 
+				a(href="http://next-episode.net", target="_blank") next-episode 
+				|  website
+			input.form-control(type='text', placeholder='Search show name on next-episode website and enter that url here', name="fetch_url", value=show.fetch_url)
 		.form-group
 			label Download URL
-			input.form-control(type='text', placeholder='URL to go when new episode available (your fav. torrent site)', name="dl_url", value=show.dl_url)
+			input.form-control(type='text', placeholder='URL to go when new episode available (your preffered site to watch/Download the episode)', name="dl_url", value=show.dl_url)
+		.form-group
+			label Your current episode
+			input.form-control(type='text', placeholder='Name of the last episode you watched', name="current", value=show.current)
 		button.btn.btn-default(type='submit') Edit Show

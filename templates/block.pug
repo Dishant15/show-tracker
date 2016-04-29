@@ -12,7 +12,8 @@
 			footer Next episode details 
 				cite.text-danger not available
 
-	div.last Your last update : #{show.current}
+	div.last Your last update : 
+		span #{show.current}
 
 .text-center.col-sm-3.col-xs-12
 	a.btn.btn-success.glyph(href=show.dl_url, target="_blank", show=show._id )

@@ -46,3 +46,7 @@ blockquote {
 	color : silver;
 	font-family: Copperplate,"Copperplate Gothic Light",fantasy;
 }
+
+form p {
+	color: silver;
+}
